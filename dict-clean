@@ -1,0 +1,43 @@
+#!/bin/bash
+word="$1"
+
+origword=""
+transword=""
+oldorigword=""
+
+echo "Übersetzung"
+
+dict "$word" | while IFS= read -r line ; do
+    
+    first2="${line:0:2}"
+    first3="${line:0:3}"
+    first5="${line:0:5}"
+    
+        
+    if [ "$first2" == "  " ] && [ "$first3" != "   " ] && [ "$first5" != "     " ] && [ -n "${line// }" ]; then
+           
+      origword=${line:2}
+      
+    fi
+    
+    if [ "$first5" == "     " ]; then                
+                 
+      transword=${line:5}
+      
+    fi
+    
+    if [ "$origword" != "" ] && [ "$transword" != "" ]; then 
+      
+      if [ "$oldorigword" != "$origword" ]; then 
+	echo "<b>$origword</b>"
+      fi
+      
+      echo "-> $transword"
+      
+      oldorigword="$origword"
+      origword=""
+      transword=""
+      
+    fi 
+    
+done

@@ -1,0 +1,6 @@
+#!/bin/bash
+clip=$(xclip -out)
+
+trans=$(dict-clean $clip)
+
+zenity --notification --text "$trans"
